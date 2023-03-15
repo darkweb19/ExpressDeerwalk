@@ -1,6 +1,7 @@
 //!express
 const express = require("express");
 const app = express();
+//this is used to encode the body of data send.
 app.use(express.urlencoded({ extended: true }));
 
 let users = ["Sujan", "Prakanda"];
