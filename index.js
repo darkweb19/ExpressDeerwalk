@@ -5,15 +5,14 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 let users = ["Sujan", "Prakanda"];
+
 app.get("/user", (req, res) => {
 	res.send(users);
 });
 
-let categories = ["name", "age"];
-
 app.post("/add-user", (req, res) => {
 	if (req.body.name) {
-		users = [...users, ...req.body.name];
+		users = [...users, req.body.name];
 		res.send("user added");
 	} else {
 		res.send("Please send the name");
@@ -28,27 +27,6 @@ app.get("/delete-user", (req, res) => {
 		});
 		res.send("User Deleted");
 	}
-});
-
-app.get("/categories", (req, res) => {
-	res.send(categories);
-	console.log(categories);
-});
-
-app.post("/add-category", (req, res) => {
-	if (req.body.category) {
-		categories = [...categories, ...req.body.category];
-		res.send("Category added");
-	} else {
-		res.send("Please provide any category");
-	}
-});
-
-app.get("/delete-category", (req, res) => {
-	categories = categories.filter((cat) => {
-		return cat != req.query.name;
-	});
-	res.send("Category Deleted");
 });
 
 app.listen(3000, () => {
