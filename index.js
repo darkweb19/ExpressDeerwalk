@@ -29,6 +29,30 @@ app.get("/delete-user", (req, res) => {
 	}
 });
 
+//added category feature
+
+let categories = ["name", "age"];
+app.get("/categories", (req, res) => {
+	res.send(categories);
+	console.log(categories);
+});
+
+app.post("/add-category", (req, res) => {
+	if (req.body.category) {
+		categories = [...categories, ...req.body.category];
+		res.send("Category added");
+	} else {
+		res.send("Please provide any category");
+	}
+});
+
+app.get("/delete-category", (req, res) => {
+	categories = categories.filter((cat) => {
+		return cat != req.query.name;
+	});
+	res.send("Category Deleted");
+});
+
 app.listen(3000, () => {
 	console.log("Server started on port : 3000");
 });
