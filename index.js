@@ -1,18 +1,27 @@
 //!express
 const express = require("express");
 const app = express();
+const uuidv4 = require("uuid").v4;
+
 //this is used to encode the body of data send.
 app.use(express.urlencoded({ extended: true }));
 
-let users = ["Sujan", "Prakanda"];
+let users = [
+	{ id: uuidv4(), name: "Sujan", email: "user1@gmail.com" },
+	{ id: uuidv4(), name: "Subani", email: "subani@gmail" },
+];
 
 app.get("/user", (req, res) => {
 	res.send(users);
 });
 
 app.post("/add-user", (req, res) => {
-	if (req.body.name) {
-		users = [...users, req.body.name];
+	if (req.body.name && req.body.email) {
+		users.push({
+			id: uuidv4(),
+			name: req.body.name,
+			email: req.body.email,
+		});
 		res.send("user added");
 	} else {
 		res.send("Please send the name");
@@ -21,16 +30,17 @@ app.post("/add-user", (req, res) => {
 });
 
 app.get("/delete-user", (req, res) => {
-	if (req.query.name) {
+	if (req.query.id) {
 		users = users.filter((user) => {
-			return user != req.query.name;
+			return user.id != req.query.id;
 		});
 		res.send("User Deleted");
+	} else {
+		res.send("Please provide name");
 	}
 });
 
 //added category feature
-
 let categories = ["name", "age"];
 app.get("/categories", (req, res) => {
 	res.send(categories);
