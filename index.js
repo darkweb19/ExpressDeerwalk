@@ -42,6 +42,7 @@ app.get("/delete-user", (req, res) => {
 
 //added category feature
 let categories = ["name", "age"];
+
 app.get("/categories", (req, res) => {
 	res.send(categories);
 	console.log(categories);
@@ -67,3 +68,34 @@ app.listen(3000, () => {
 	console.log("Server started on port : 3000");
 });
 //this is the change
+
+//added  objects in category as well
+let objCategory = [
+	{ id: uuidv4(), category: "work" },
+	{ id: uuidv4(), category: "college" },
+];
+
+app.get("/object", (req, res) => {
+	res.send(objCategory);
+});
+
+app.post("/add-object", (req, res) => {
+	if (req.body.category) {
+		objCategory.push({
+			id: uuidv4(),
+			category: req.body.category,
+		});
+	} else {
+		res.send("please provide the details");
+	}
+	res.send("Added the object");
+});
+
+app.get("/delete-object", (req, res) => {
+	if (req.query.id) {
+		objCategory = objCategory.filter((obj) => {
+			return obj.id != req.query.id;
+		});
+		res.send("Object category was deleted");
+	}
+});
